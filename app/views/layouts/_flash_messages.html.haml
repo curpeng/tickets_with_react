@@ -1,0 +1,7 @@
+- %i(error notice alert).each do |type|
+  - if flash[type]
+    .alert.alert-dismissible.alert-danger{id: "flash_#{type}"}
+      %button.close{type: 'button', 'data-dismiss' => 'alert'}
+        &times;
+      %strong
+        = flash[type]

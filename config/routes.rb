@@ -1,3 +1,15 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  root 'tickets#index'
+
+  devise_scope :users do
+    authenticated :user do
+      root to: 'tickets#index', as: :authenticated_root
+    end
+
+    unauthenticated :user do
+      root to: 'devise/sessions#new', as: :unauthenticated_root
+    end
+  end
+
+  devise_for :users
 end
