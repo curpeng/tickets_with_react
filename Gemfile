@@ -33,11 +33,12 @@ gem 'active_model_serializers', '~> 0.10.0'
 # gem 'capistrano-rails', group: :development
 gem 'haml-rails'
 gem 'react_on_rails', '~>6'
+gem 'factory_girl_rails'
+gem 'faker'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
-  gem 'faker'
   gem 'rspec-rails'
   gem 'pry'
 end
@@ -52,7 +53,6 @@ group :development do
 end
 
 group :test do
-  gem 'factory_girl_rails'
   gem 'capybara'
   gem 'poltergeist'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
