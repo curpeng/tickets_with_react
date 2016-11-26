@@ -3,12 +3,12 @@ import Ticket from '../components/Ticket';
 
 export default class Tickets extends React.Component {
   static propTypes = {
-    tickets: PropTypes.array.isRequired, // this is passed from the Rails view
+    ticketsData: PropTypes.object.isRequired,
   };
 
   constructor(props) {
     super(props);
-    this.state = { tickets: this.props.tickets, sort_type: 1, sort_name: '' };
+    this.state = { tickets: this.props.ticketsData.tickets, sort_type: 1, onTicketClick: props.actions.onTicketClick};
     this.sortStrings = this.sortStrings.bind(this);
     this.sortDates = this.sortDates.bind(this);
   }
@@ -78,7 +78,7 @@ export default class Tickets extends React.Component {
           </tr>
           </thead>
           <tbody>
-          { this.state.tickets.map((ticket) => <Ticket key={ticket.id} ticket={ticket} />) }
+          { this.state.tickets.map((ticket) => <Ticket key={ticket.id} ticket={ticket} onClick={() => this.state.onTicketClick(ticket.id)}/>) }
           </tbody>
         </table>
       </div>

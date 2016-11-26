@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 const Ticket = (props) => {
   return (
-    <tr>
+    <tr onClick={props.onClick}>
       <td> { props.ticket.description } </td>
       <td> { props.ticket.state }</td>
       <td> { props.ticket.owner.first_name } {props.ticket.owner.last_name}</td>

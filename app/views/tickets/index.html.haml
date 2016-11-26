@@ -1,3 +1,4 @@
 %h1 Your tickets:
-= react_component("TicketsApp", props: {tickets: @tickets}, prerender: false)
+= redux_store("TicketsStore", props: { ticketsData: {tickets: @tickets, chosenTicketId: -1}})
+= react_component("TicketsApp", props: {tickets: @tickets, chosenTicketId: -1}, prerender: false)
 
