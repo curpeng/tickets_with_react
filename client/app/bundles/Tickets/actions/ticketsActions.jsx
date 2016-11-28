@@ -39,3 +39,8 @@ export function resolvedDeleteTicket(ticketId) {
   }
 }
 
+export function editTicket() {
+  return {
+    type: actionTypes.EDIT_TICKET
+  };
+}

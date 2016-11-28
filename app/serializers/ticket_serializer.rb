@@ -1,5 +1,5 @@
 class TicketSerializer < ActiveModel::Serializer
-  attributes :id, :description, :state, :owner, :performer, :created_at
+  attributes :id, :description, :state, :owner, :performer, :created_at, :performer_id
 
   def owner
     info_of(object.owner)

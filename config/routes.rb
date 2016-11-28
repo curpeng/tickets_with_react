@@ -14,4 +14,6 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :tickets
+
+  get 'users/search', to: 'users#search'
 end

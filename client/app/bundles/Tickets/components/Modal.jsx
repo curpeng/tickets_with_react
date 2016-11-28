@@ -1,30 +1,34 @@
 import React, { PropTypes } from 'react';
+import UsersAutocomplete from './UsersAutocomplete';
 
 export default class Modal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      type: 'read',
-      changedTicket: null
-    };
-
-    this.editTicket = this.editTicket.bind(this);
+    this.changedTicket = null;
     this.saveTicket = this.saveTicket.bind(this);
     this.changeTicketDesc = this.changeTicketDesc.bind(this);
     this.getTicket = this.getTicket.bind(this);
+    this.editTicket = this.editTicket.bind(this);
+    this.changePerformer = this.changePerformer.bind(this);
   }
 
   editTicket () {
     this.setState((prevState, props) => ({
-      type: 'edit',
-      changedTicket: this.getTicket(props.ticketsData.chosenTicketId)
+      changedTicket: this.getTicket(props.data.chosenTicketId)
+    }));
+    this.props.actions.onEditClick();
+  }
+
+  changePerformer (event, { suggestion }) {
+    this.setState((prevState, props) => ({
+      changedTicket: Object.assign({}, prevState.changedTicket, {
+        performer: suggestion,
+        performer_id: suggestion.id
+      })
     }));
   }
 
   saveTicket () {
-    this.setState((prevState, props) => ({
-      type: 'read',
-    }));
     this.props.actions.updateTicketClick(this.state.changedTicket);
   }
 
@@ -38,26 +42,29 @@ export default class Modal extends React.Component {
   }
 
   getTicket (id) {
-    return this.props.ticketsData.tickets.find(function(el){return el.id === id});
+    return this.props.tickets.find(function(el){return el.id === id});
   }
 
   render() {
-    const ticketsData = this.props.ticketsData;
-    var ticket = this.getTicket(ticketsData.chosenTicketId);
+    const data = this.props.data;
+    var ticket = this.getTicket(data.chosenTicketId);
     if (ticket){
       let style = {
         display: 'block',
       };
 
-      var changeFormTypeButton;
-      var description;
+      var actionButtonCallback, actionButtonText, description, performer;
 
-      if (this.state.type == 'read') {
-        changeFormTypeButton = <button type="button" className="btn btn-primary" onClick={this.editTicket}>Edit</button>
-        description = ticket.description
+      if (data.type == 'read') {
+        actionButtonCallback = this.editTicket;
+        actionButtonText = 'Edit';
+        description = ticket.description;
+        performer = ticket.performer.first_name + " " + ticket.performer.last_name
       } else{
-        changeFormTypeButton = <button type="button" className="btn btn-primary" onClick={this.saveTicket}>Save</button>
+        actionButtonCallback = this.saveTicket;
+        actionButtonText = 'Save';
         description = <input type="text" value={ this.state.changedTicket.description } onChange={this.changeTicketDesc} />
+        performer = <UsersAutocomplete onUserSelectedClick={this.changePerformer} value={ticket.performer.first_name +' '+ticket.performer.last_name}/>
       }
 
       return (
@@ -90,7 +97,10 @@ export default class Modal extends React.Component {
 
                       <tr>
                         <td>Performer: </td>
-                        <td> { ticket.performer.first_name } { ticket.performer.last_name } </td>
+                        <td>
+                          { performer }
+                        </td>
+
                       </tr>
 
                       <tr>
@@ -100,7 +110,7 @@ export default class Modal extends React.Component {
                     </tbody>
                   </table>
                   <div className="modal-footer">
-                    { changeFormTypeButton }
+                    <button type="button" className="btn btn-primary" onClick={actionButtonCallback}>{actionButtonText}</button>
                   </div>
                 </div>
               </div>

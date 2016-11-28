@@ -2,7 +2,10 @@ import * as actionTypes from '../constants/ticketsConstants';
 
 const initialState = {
   tickets: [],
-  chosenTicketId: -1
+  modal: {
+    chosenTicketId: -1,
+    type: 'read'
+  }
 };
 
 export default function TicketsReducer(state = initialState, action) {
@@ -12,13 +15,20 @@ export default function TicketsReducer(state = initialState, action) {
       return state;
 
     case actionTypes.SHOW_TICKET:
+      modalState = Object.assign({}, state.modal, {
+        chosenTicketId: ticketId,
+        type: 'read'
+      });
       return Object.assign({}, state, {
-        chosenTicketId: ticketId
+         modal: modalState
       });
 
     case actionTypes.CLOSE_TICKET:
-      return Object.assign({}, state, {
+      modalState = Object.assign({}, state.modal, {
         chosenTicketId: -1
+      });
+      return Object.assign({}, state, {
+        modal: modalState
       });
 
     case actionTypes.UPDATE_TICKET:
@@ -42,6 +52,14 @@ export default function TicketsReducer(state = initialState, action) {
       newTickets = state.tickets.filter(function(el){return el.id != action.ticketId});
       return Object.assign({}, state, {
         tickets: newTickets
+      });
+
+    case actionTypes.EDIT_TICKET:
+      let modalState = Object.assign({}, state.modal, {
+        type: 'edit',
+      });
+      return Object.assign({}, state, {
+        modal: modalState
       });
 
     default:
