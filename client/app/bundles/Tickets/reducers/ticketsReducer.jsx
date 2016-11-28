@@ -8,10 +8,14 @@ const initialState = {
 export default function TicketsReducer(state = initialState, action) {
   const { type, ticketId } = action;
   switch (type) {
+    case actionTypes.DELETE_TICKET:
+      return state;
+
     case actionTypes.SHOW_TICKET:
       return Object.assign({}, state, {
         chosenTicketId: ticketId
       });
+
     case actionTypes.CLOSE_TICKET:
       return Object.assign({}, state, {
         chosenTicketId: -1
@@ -33,6 +37,13 @@ export default function TicketsReducer(state = initialState, action) {
       return Object.assign({}, state, {
         tickets: newTickets
       });
+
+    case actionTypes.RESOLVED_DELETE_TICKET:
+      newTickets = state.tickets.filter(function(el){return el.id != action.ticketId});
+      return Object.assign({}, state, {
+        tickets: newTickets
+      });
+
     default:
       return state;
   }

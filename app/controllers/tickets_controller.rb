@@ -16,6 +16,15 @@ class TicketsController < ApplicationController
     end
   end
 
+  def destroy
+    @ticket = current_user.tickets.find(params[:id])
+    @ticket.delete
+
+    respond_to do |format|
+      format.json { head :no_content }
+    end
+  end
+
   private
 
   def initialize_store

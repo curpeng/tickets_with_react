@@ -33,6 +33,10 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: {
       onTicketClick: (id) => { dispatch(ticketsActions.showTicket(id)) },
+      onTicketDeleteClick: (id, e) => {
+        e.stopPropagation();
+        dispatch(ticketsActions.deleteTicket(id, dispatch))
+      },
       closeModalClick: () => { dispatch(ticketsActions.closeTicket()) },
       updateTicketClick: (ticket) => { dispatch(ticketsActions.updateTicket(ticket, dispatch)) }
     }

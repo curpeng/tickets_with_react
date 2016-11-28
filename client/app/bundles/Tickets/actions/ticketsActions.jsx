@@ -19,11 +19,23 @@ export function updateTicket(ticket, dispatch) {
     .then(json => dispatch(resolvedUpdateTicket(json.data, dispatch)))
 }
 
+export function deleteTicket(ticketId, dispatch) {
+  return axios.delete('/tickets/' + ticketId + '.json')
+    .then(json => dispatch(resolvedDeleteTicket(ticketId)))
+}
+
 export function resolvedUpdateTicket(data, dispatch) {
   dispatch(closeTicket());
   return {
     type: actionTypes.RESOLVED_UPDATE_TICKET,
     data: data
+  }
+}
+
+export function resolvedDeleteTicket(ticketId) {
+  return {
+    type: actionTypes.RESOLVED_DELETE_TICKET,
+    ticketId: ticketId
   }
 }
 

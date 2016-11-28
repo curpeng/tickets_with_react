@@ -8,7 +8,12 @@ export default class Tickets extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { tickets: this.props.ticketsData.tickets, sort_type: 1, onTicketClick: props.actions.onTicketClick};
+    this.state = {
+      sort_type: 1,
+      onTicketClick: props.actions.onTicketClick,
+      onTicketDeleteClick: props.actions.onTicketDeleteClick
+    };
+
     this.sortStrings = this.sortStrings.bind(this);
     this.sortDates = this.sortDates.bind(this);
   }
@@ -18,7 +23,7 @@ export default class Tickets extends React.Component {
       e.preventDefault();
       context.setState((prevState, props) => ({
         sort_type: prevState.sort_type * -1,
-        tickets: prevState.tickets.sort(context.compareStrings(prevState.sort_type * -1, field))
+        tickets: this.props.ticketsData.tickets.sort(context.compareStrings(prevState.sort_type * -1, field))
       }));
     }
   }
@@ -47,7 +52,7 @@ export default class Tickets extends React.Component {
     e.preventDefault();
     this.setState((prevState, props) => ({
       sort_type: prevState.sort_type * -1,
-      tickets: prevState.tickets.sort(this.compareDates(prevState.sort_type * -1))
+      tickets: this.props.ticketsData.tickets.sort(this.compareDates(prevState.sort_type * -1))
     }));
   }
 
@@ -75,10 +80,13 @@ export default class Tickets extends React.Component {
             <td onClick={this.sortStrings('owner.first_name', this)}> Owner</td>
             <td onClick={this.sortStrings('performer.first_name', this)}> Performer</td>
             <td onClick={this.sortDates}>Created at</td>
+            <td> Actions </td>
           </tr>
           </thead>
           <tbody>
-          { this.state.tickets.map((ticket) => <Ticket key={ticket.id} ticket={ticket} onClick={() => this.state.onTicketClick(ticket.id)}/>) }
+            {this.props.ticketsData.tickets.map((ticket) =>
+              <Ticket key={ticket.id} ticket={ticket} onTicketClick={() => this.state.onTicketClick(ticket.id)} onDeleteClick={(e) => this.state.onTicketDeleteClick(ticket.id, e)}/>)
+            }
           </tbody>
         </table>
       </div>
