@@ -4,6 +4,7 @@ class TicketsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
+    @states = Task::STATES.values
     @tickets = current_user.tickets.map { |ticket| TicketSerializer.new(ticket, {}).serializable_hash }
   end
 
@@ -32,6 +33,6 @@ class TicketsController < ApplicationController
   end
 
   def ticket_params
-    params.require(:ticket).permit(:description, :performer_id)
+    params.require(:ticket).permit(:description, :performer_id, :state)
   end
 end

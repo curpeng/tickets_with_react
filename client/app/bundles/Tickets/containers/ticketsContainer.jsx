@@ -10,7 +10,7 @@ import * as ticketsActions from '../actions/ticketsActions';
 const TicketsContainer = ({ actions, ticketsData }) => {
   return (
     <div>
-      <Modal data={ticketsData.modal} actions={actions} tickets= {ticketsData.tickets} />
+      <Modal data={ticketsData.modal} actions={actions} tickets= {ticketsData.tickets} states={ticketsData.states} />
       <Tickets {...{actions, ticketsData}} />
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import UsersAutocomplete from './UsersAutocomplete';
+import Dropdown from 'react-dropdown';
 
 export default class Modal extends React.Component {
   constructor(props) {
@@ -7,6 +8,7 @@ export default class Modal extends React.Component {
     this.changedTicket = null;
     this.saveTicket = this.saveTicket.bind(this);
     this.changeTicketDesc = this.changeTicketDesc.bind(this);
+    this.changeTicketState = this.changeTicketState.bind(this);
     this.getTicket = this.getTicket.bind(this);
     this.editTicket = this.editTicket.bind(this);
     this.changePerformer = this.changePerformer.bind(this);
@@ -41,6 +43,14 @@ export default class Modal extends React.Component {
     }));
   }
 
+  changeTicketState (state) {
+    this.setState((prevState, props) => ({
+      changedTicket: Object.assign({}, prevState.changedTicket, {
+        state: state.value
+      })
+    }));
+  }
+
   getTicket (id) {
     return this.props.tickets.find(function(el){return el.id === id});
   }
@@ -53,18 +63,20 @@ export default class Modal extends React.Component {
         display: 'block',
       };
 
-      var actionButtonCallback, actionButtonText, description, performer;
+      var actionButtonCallback, actionButtonText, description, performer, state;
 
       if (data.type == 'read') {
         actionButtonCallback = this.editTicket;
         actionButtonText = 'Edit';
         description = ticket.description;
         performer = ticket.performer.first_name + " " + ticket.performer.last_name
+        state = ticket.state
       } else{
         actionButtonCallback = this.saveTicket;
         actionButtonText = 'Save';
-        description = <input type="text" value={ this.state.changedTicket.description } onChange={this.changeTicketDesc} />
+        description = <input type="text" className="form-control" value={ this.state.changedTicket.description } onChange={this.changeTicketDesc} />
         performer = <UsersAutocomplete onUserSelectedClick={this.changePerformer} value={ticket.performer.first_name +' '+ticket.performer.last_name}/>
+        state = <Dropdown options={this.props.states} onChange={this.changeTicketState} value={this.state.changedTicket.state} placeholder="Select an option" />
       }
 
       return (
@@ -87,7 +99,7 @@ export default class Modal extends React.Component {
 
                       <tr>
                         <td>State: </td>
-                        <td> { ticket.state } </td>
+                        <td> {state} </td>
                       </tr>
 
                       <tr>
