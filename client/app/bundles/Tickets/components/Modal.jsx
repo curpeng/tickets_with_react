@@ -112,7 +112,6 @@ export default class Modal extends React.Component {
                         <td>
                           { performer }
                         </td>
-
                       </tr>
 
                       <tr>

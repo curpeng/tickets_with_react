@@ -26,6 +26,13 @@ class TicketsController < ApplicationController
     end
   end
 
+  def create
+    @ticket = current_user.tickets.create(ticket_params.merge(owner_id: current_user.id))
+    respond_to do |format|
+      format.json { render json: TicketSerializer.new(@ticket, {}).to_json }
+    end
+  end
+
   private
 
   def initialize_store

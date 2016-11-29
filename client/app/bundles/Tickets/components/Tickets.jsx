@@ -9,9 +9,7 @@ export default class Tickets extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sort_type: 1,
-      onTicketClick: props.actions.onTicketClick,
-      onTicketDeleteClick: props.actions.onTicketDeleteClick
+      sort_type: 1
     };
 
     this.sortStrings = this.sortStrings.bind(this);
@@ -72,6 +70,9 @@ export default class Tickets extends React.Component {
   render() {
     return (
       <div className="tickets-block">
+        <div>
+          <button type="button" className="btn btn-primary" onClick={this.props.actions.showCreateForm}>Create Ticket</button>
+        </div>
         <table className="table table-striped">
           <thead>
           <tr>
@@ -85,7 +86,7 @@ export default class Tickets extends React.Component {
           </thead>
           <tbody>
             {this.props.ticketsData.tickets.map((ticket) =>
-              <Ticket key={ticket.id} ticket={ticket} onTicketClick={() => this.state.onTicketClick(ticket.id)} onDeleteClick={(e) => this.state.onTicketDeleteClick(ticket.id, e)}/>)
+              <Ticket key={ticket.id} ticket={ticket} onTicketClick={() => this.props.actions.onTicketClick(ticket.id)} onDeleteClick={(e) => this.props.actions.onTicketDeleteClick(ticket.id, e)}/>)
             }
           </tbody>
         </table>

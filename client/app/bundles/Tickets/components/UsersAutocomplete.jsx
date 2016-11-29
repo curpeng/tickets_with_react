@@ -19,7 +19,11 @@ export default class UsersAutocomplete extends React.Component {
 
   loadSuggestions = (value) => {
     return axios.get('/users/search?q=' + value)
-      .then(json => this.state.suggestions = json.data)
+      .then(json =>
+        this.setState({
+          suggestions: json.data
+        })
+      );
   };
 
   getSuggestionValue = (user) => {

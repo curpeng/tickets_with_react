@@ -5,7 +5,8 @@ const initialState = {
   modal: {
     chosenTicketId: -1,
     type: 'read'
-  }
+  },
+  showCreateForm: false
 };
 
 export default function TicketsReducer(state = initialState, action) {
@@ -29,6 +30,14 @@ export default function TicketsReducer(state = initialState, action) {
       });
       return Object.assign({}, state, {
         modal: modalState
+      });
+
+    case actionTypes.CREATE_TICKET:
+      return action.data;
+
+    case actionTypes.RESOLVED_CREATE_TICKET:
+      return Object.assign({}, state, {
+        tickets: state.tickets.concat(action.data)
       });
 
     case actionTypes.UPDATE_TICKET:
@@ -60,6 +69,16 @@ export default function TicketsReducer(state = initialState, action) {
       });
       return Object.assign({}, state, {
         modal: modalState
+      });
+
+    case actionTypes.SHOW_CREATE_FORM:
+      return Object.assign({}, state, {
+        showCreateForm: true
+      });
+
+    case actionTypes.CLOSE_CREATE_FORM:
+      return Object.assign({}, state, {
+        showCreateForm: false
       });
 
     default:

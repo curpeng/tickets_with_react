@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import CreateForm from '../components/CreateForm';
 import Modal from '../components/Modal';
 import Tickets from '../components/Tickets';
 
@@ -10,6 +11,7 @@ import * as ticketsActions from '../actions/ticketsActions';
 const TicketsContainer = ({ actions, ticketsData }) => {
   return (
     <div>
+      <CreateForm isShown= {ticketsData.showCreateForm} actions={actions} states={ticketsData.states}/>
       <Modal data={ticketsData.modal} actions={actions} tickets= {ticketsData.tickets} states={ticketsData.states} />
       <Tickets {...{actions, ticketsData}} />
     </div>
@@ -37,7 +39,10 @@ function mapDispatchToProps(dispatch) {
       },
       closeModalClick: () => { dispatch(ticketsActions.closeTicket()) },
       updateTicketClick: (ticket) => { dispatch(ticketsActions.updateTicket(ticket, dispatch)) },
-      onEditClick: () => { dispatch(ticketsActions.editTicket()) }
+      onEditClick: () => { dispatch(ticketsActions.editTicket()) },
+      showCreateForm: ()=> { dispatch(ticketsActions.showCreateForm())},
+      closeCreateForm: ()=> { dispatch(ticketsActions.closeCreateForm())},
+      createTicketClick: (ticket)=> { dispatch(ticketsActions.createTicket(ticket, dispatch))}
     }
   };
 }
