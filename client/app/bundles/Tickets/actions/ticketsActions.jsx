@@ -14,9 +14,11 @@ export function closeTicket() {
   };
 }
 
-export function createTicket(ticket, dispatch) {
-  return axios.post('/tickets.json', { ticket: ticket})
-    .then(json => dispatch(resolvedCreateTicket(json.data, dispatch)))
+export function createTicket(ticket) {
+  return (dispatch) => {
+    return axios.post('/tickets.json', {ticket: ticket})
+      .then(json => dispatch(resolvedCreateTicket(json.data, dispatch)))
+  }
 }
 
 export function resolvedCreateTicket(data, dispatch) {
@@ -27,14 +29,18 @@ export function resolvedCreateTicket(data, dispatch) {
   }
 }
 
-export function updateTicket(ticket, dispatch) {
-  return axios.put('/tickets/' + ticket.id + '.json', { ticket: ticket})
-    .then(json => dispatch(resolvedUpdateTicket(json.data, dispatch)))
+export function updateTicket(ticket) {
+  return (dispatch) => {
+    return axios.put('/tickets/' + ticket.id + '.json', { ticket: ticket})
+      .then(json => dispatch(resolvedUpdateTicket(json.data, dispatch)))
+  };
 }
 
-export function deleteTicket(ticketId, dispatch) {
-  return axios.delete('/tickets/' + ticketId + '.json')
-    .then(json => dispatch(resolvedDeleteTicket(ticketId)))
+export function deleteTicket(ticketId) {
+  return (dispatch) => {
+    return axios.delete('/tickets/' + ticketId + '.json')
+      .then(json => dispatch(resolvedDeleteTicket(ticketId)))
+  }
 }
 
 export function resolvedUpdateTicket(data, dispatch) {
@@ -76,19 +82,3 @@ export function addTicketFromSockets(ticket) {
     ticket: ticket
   };
 }
-
-export function deleteTicketFromSockets(ticketId) {
-  return {
-    type: actionTypes.DELETE_TICKET_FROM_SOCKETS,
-    ticketId: ticketId
-  };
-}
-
-export function updateTicketFromSockets(ticket) {
-  return {
-    type: actionTypes.UPDATE_TICKET_FROM_SOCKETS,
-    ticket: ticket
-  };
-}
-
-

@@ -1,4 +1,4 @@
-import { combineReducers, applyMiddleware, createStore } from 'redux';
+import { combineReducers, applyMiddleware, createStore, compose } from 'redux';
 import middleware from 'redux-thunk';
 
 import reducers from '../reducers/reducersIndex';
@@ -10,5 +10,5 @@ import reducers from '../reducers/reducersIndex';
 export default (props, railsContext) => {
   const combinedReducer = combineReducers(reducers);
   props.railsContext = railsContext;
-  return applyMiddleware(middleware)(createStore)(combinedReducer, props);
+  return compose(applyMiddleware(middleware))(createStore)(combinedReducer, props);
 };

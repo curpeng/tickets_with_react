@@ -2,26 +2,20 @@ import React, { PropTypes } from 'react';
 import UsersAutocomplete from './UsersAutocomplete';
 import Dropdown from 'react-dropdown';
 
-export default class Modal extends React.Component {
+export default class EditShowForm extends React.Component {
   constructor(props) {
     super(props);
     this.changedTicket = null;
-    this.saveTicket = this.saveTicket.bind(this);
-    this.changeTicketDesc = this.changeTicketDesc.bind(this);
-    this.changeTicketState = this.changeTicketState.bind(this);
-    this.getTicket = this.getTicket.bind(this);
-    this.editTicket = this.editTicket.bind(this);
-    this.changePerformer = this.changePerformer.bind(this);
   }
 
-  editTicket () {
+  editTicket = ()=> {
     this.setState((prevState, props) => ({
       changedTicket: this.getTicket(props.data.chosenTicketId)
     }));
     this.props.actions.onEditClick();
-  }
+  };
 
-  changePerformer (event, { suggestion }) {
+  changePerformer = (event, { suggestion }) => {
     this.setState((prevState, props) => ({
       changedTicket: Object.assign({}, prevState.changedTicket, {
         performer: suggestion,
@@ -30,30 +24,30 @@ export default class Modal extends React.Component {
     }));
   }
 
-  saveTicket () {
+  saveTicket = ()=> {
     this.props.actions.updateTicketClick(this.state.changedTicket);
-  }
+  };
 
-  changeTicketDesc (e) {
+  changeTicketDesc = (e)=> {
     e.persist();
     this.setState((prevState, props) => ({
       changedTicket: Object.assign({}, prevState.changedTicket, {
         description: e.target.value
       })
     }));
-  }
+  };
 
-  changeTicketState (state) {
+  changeTicketState = (state)=> {
     this.setState((prevState, props) => ({
       changedTicket: Object.assign({}, prevState.changedTicket, {
         state: state.value
       })
     }));
-  }
+  };
 
-  getTicket (id) {
+  getTicket = (id) => {
     return this.props.tickets.find(function(el){return el.id === id});
-  }
+  };
 
   render() {
     const data = this.props.data;

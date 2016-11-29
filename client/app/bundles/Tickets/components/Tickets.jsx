@@ -4,6 +4,7 @@ import Ticket from '../components/Ticket';
 export default class Tickets extends React.Component {
   static propTypes = {
     ticketsData: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -12,21 +13,17 @@ export default class Tickets extends React.Component {
       sort_type: 1,
       performerId: props.ticketsData.performerId
     };
-
-    this.sortStrings = this.sortStrings.bind(this);
-    this.sortDates = this.sortDates.bind(this);
-    this.handleTicketsUpdate = this.handleTicketsUpdate.bind(this);
   }
 
-  sortStrings(field, context) {
+  sortStrings = (field, context) => {
     return function(e) {
       e.preventDefault();
       context.setState((prevState, props) => ({
         sort_type: prevState.sort_type * -1,
-        tickets: this.props.ticketsData.tickets.sort(context.compareStrings(prevState.sort_type * -1, field))
+        tickets: props.ticketsData.tickets.sort(context.compareStrings(prevState.sort_type * -1, field))
       }));
     }
-  }
+  };
 
   compareStrings(sort_type, field) {
     return function(a, b) {
@@ -48,13 +45,13 @@ export default class Tickets extends React.Component {
     }
   }
 
-  sortDates(e) {
+  sortDates = (e) => {
     e.preventDefault();
     this.setState((prevState, props) => ({
       sort_type: prevState.sort_type * -1,
       tickets: this.props.ticketsData.tickets.sort(this.compareDates(prevState.sort_type * -1))
     }));
-  }
+  };
 
   compareDates(sort_type) {
     return function(a, b) {
@@ -69,17 +66,18 @@ export default class Tickets extends React.Component {
     }
   }
 
-  handleTicketsUpdate(data) {
-    console.log('handleTicketsUpdate:', data);
+  handleTicketsUpdate = (data)=> {
+    let ticket = JSON.parse(data.ticket);
+
     switch (data.action) {
       case 'add':
-        return this.props.actions.addTicketFromSockets(JSON.parse(data.ticket));
+        return this.props.actions.addTicketFromSockets(ticket);
       case 'update':
-        return this.props.actions.updateTicketFromSockets(JSON.parse(data.ticket));
+        return this.props.actions.updateTicketFromSockets(ticket);
       case 'delete':
-        return this.props.actions.deleteTicketFromSockets(JSON.parse(data.ticketId));
+        return this.props.actions.deleteTicketFromSockets(data.ticketId);
     }
-  }
+  };
 
   componentDidMount() {
     this.setupSubscription();
