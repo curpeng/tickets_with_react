@@ -1,24 +1,25 @@
-# README
+**DESCRIPTION**
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Project based on Rails 5 with ActionCable, React.js, and Redux.
 
-Things you may want to cover:
+Demo: https://reacttickets.herokuapp.com/
+Credentials: 
 
-* Ruby version
+  `email: test@gmail.com`
 
-* System dependencies
+  `password: testtest12`
+   
+  `email: test2@gmail.com`
 
-* Configuration
+  `password: testtest12`
+ 
 
-* Database creation
+**INSTALL AND RUN**
 
-* Database initialization
+To run project locally you need:
+1) install `ruby-2.3.3`
+2) install `postgresql`
+2) run `bundle install`
+3) copy `database.yml.example` to `database.yml` and fill in your db settings
+4) run `foreman start -f Procfile.dev`
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
