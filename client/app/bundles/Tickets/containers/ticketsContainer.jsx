@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import CreateForm from '../components/CreateForm';
-import Modal from '../components/Modal';
+import EditShowForm from '../components/EditShowForm';
 import Tickets from '../components/Tickets';
 
 import * as ticketsActions from '../actions/ticketsActions';
@@ -12,7 +12,7 @@ const TicketsContainer = ({ actions, ticketsData }) => {
   return (
     <div>
       <CreateForm isShown= {ticketsData.showCreateForm} actions={actions} states={ticketsData.states}/>
-      <Modal data={ticketsData.modal} actions={actions} tickets= {ticketsData.tickets} states={ticketsData.states} />
+      <EditShowForm data={ticketsData.modal} actions={actions} tickets= {ticketsData.tickets} states={ticketsData.states} />
       <Tickets {...{actions, ticketsData}} />
     </div>
   );
@@ -38,11 +38,11 @@ function mapDispatchToProps(dispatch) {
         dispatch(ticketsActions.deleteTicket(id, dispatch))
       },
       closeModalClick: () => { dispatch(ticketsActions.closeTicket()) },
-      updateTicketClick: (ticket) => { dispatch(ticketsActions.updateTicket(ticket, dispatch)) },
+      updateTicketClick: (ticket) => { dispatch(ticketsActions.updateTicket(ticket)) },
       onEditClick: () => { dispatch(ticketsActions.editTicket()) },
       showCreateForm: ()=> { dispatch(ticketsActions.showCreateForm())},
       closeCreateForm: ()=> { dispatch(ticketsActions.closeCreateForm())},
-      createTicketClick: (ticket)=> { dispatch(ticketsActions.createTicket(ticket, dispatch))},
+      createTicketClick: (ticket)=> { dispatch(ticketsActions.createTicket(ticket))},
       addTicketFromSockets: (ticket) => { dispatch(ticketsActions.addTicketFromSockets(ticket))},
       updateTicketFromSockets: (ticket) => { dispatch(ticketsActions.resolvedUpdateTicket(ticket, dispatch))},
       deleteTicketFromSockets: (ticketId) => { dispatch(ticketsActions.resolvedDeleteTicket(ticketId)) }
