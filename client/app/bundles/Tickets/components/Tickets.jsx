@@ -3,12 +3,15 @@ import Ticket from '../components/Ticket';
 
 export default class Tickets extends React.Component {
   static propTypes = {
-    tickets: PropTypes.array.isRequired, // this is passed from the Rails view
+    ticketsData: PropTypes.object.isRequired,
   };
 
   constructor(props) {
     super(props);
-    this.state = { tickets: this.props.tickets, sort_type: 1, sort_name: '' };
+    this.state = {
+      sort_type: 1
+    };
+
     this.sortStrings = this.sortStrings.bind(this);
     this.sortDates = this.sortDates.bind(this);
   }
@@ -18,7 +21,7 @@ export default class Tickets extends React.Component {
       e.preventDefault();
       context.setState((prevState, props) => ({
         sort_type: prevState.sort_type * -1,
-        tickets: prevState.tickets.sort(context.compareStrings(prevState.sort_type * -1, field))
+        tickets: this.props.ticketsData.tickets.sort(context.compareStrings(prevState.sort_type * -1, field))
       }));
     }
   }
@@ -47,7 +50,7 @@ export default class Tickets extends React.Component {
     e.preventDefault();
     this.setState((prevState, props) => ({
       sort_type: prevState.sort_type * -1,
-      tickets: prevState.tickets.sort(this.compareDates(prevState.sort_type * -1))
+      tickets: this.props.ticketsData.tickets.sort(this.compareDates(prevState.sort_type * -1))
     }));
   }
 
@@ -67,6 +70,9 @@ export default class Tickets extends React.Component {
   render() {
     return (
       <div className="tickets-block">
+        <div>
+          <button type="button" className="btn btn-primary" onClick={this.props.actions.showCreateForm}>Create Ticket</button>
+        </div>
         <table className="table table-striped">
           <thead>
           <tr>
@@ -75,10 +81,13 @@ export default class Tickets extends React.Component {
             <td onClick={this.sortStrings('owner.first_name', this)}> Owner</td>
             <td onClick={this.sortStrings('performer.first_name', this)}> Performer</td>
             <td onClick={this.sortDates}>Created at</td>
+            <td> Actions </td>
           </tr>
           </thead>
           <tbody>
-          { this.state.tickets.map((ticket) => <Ticket key={ticket.id} ticket={ticket} />) }
+            {this.props.ticketsData.tickets.map((ticket) =>
+              <Ticket key={ticket.id} ticket={ticket} onTicketClick={() => this.props.actions.onTicketClick(ticket.id)} onDeleteClick={(e) => this.props.actions.onTicketDeleteClick(ticket.id, e)}/>)
+            }
           </tbody>
         </table>
       </div>
