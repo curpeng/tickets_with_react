@@ -16,4 +16,6 @@ Rails.application.routes.draw do
   resources :tickets
 
   get 'users/search', to: 'users#search'
+
+  mount ActionCable.server => '/cable'
 end

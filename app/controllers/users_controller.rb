@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   def search
     search_param = "%#{params[:q]}%"
-    @users = User.where('first_name ilike ? or last_name ilike ?', search_param, search_param)
+    @users = User.where('id != ? and (first_name ilike ? or last_name ilike ?)', current_user.id, search_param, search_param)
     render json: @users.map { |ticket| UserSerializer.new(ticket, {}).serializable_hash }
   end
 end
