@@ -42,7 +42,10 @@ function mapDispatchToProps(dispatch) {
       onEditClick: () => { dispatch(ticketsActions.editTicket()) },
       showCreateForm: ()=> { dispatch(ticketsActions.showCreateForm())},
       closeCreateForm: ()=> { dispatch(ticketsActions.closeCreateForm())},
-      createTicketClick: (ticket)=> { dispatch(ticketsActions.createTicket(ticket, dispatch))}
+      createTicketClick: (ticket)=> { dispatch(ticketsActions.createTicket(ticket, dispatch))},
+      addTicketFromSockets: (ticket) => { dispatch(ticketsActions.addTicketFromSockets(ticket))},
+      updateTicketFromSockets: (ticket) => { dispatch(ticketsActions.resolvedUpdateTicket(ticket, dispatch))},
+      deleteTicketFromSockets: (ticketId) => { dispatch(ticketsActions.resolvedDeleteTicket(ticketId)) }
     }
   };
 }

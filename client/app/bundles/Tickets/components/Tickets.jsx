@@ -9,11 +9,13 @@ export default class Tickets extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sort_type: 1
+      sort_type: 1,
+      performerId: props.ticketsData.performerId
     };
 
     this.sortStrings = this.sortStrings.bind(this);
     this.sortDates = this.sortDates.bind(this);
+    this.handleTicketsUpdate = this.handleTicketsUpdate.bind(this);
   }
 
   sortStrings(field, context) {
@@ -66,6 +68,42 @@ export default class Tickets extends React.Component {
       }
     }
   }
+
+  handleTicketsUpdate(data) {
+    console.log('handleTicketsUpdate:', data);
+    switch (data.action) {
+      case 'add':
+        return this.props.actions.addTicketFromSockets(JSON.parse(data.ticket));
+      case 'update':
+        return this.props.actions.updateTicketFromSockets(JSON.parse(data.ticket));
+      case 'delete':
+        return this.props.actions.deleteTicketFromSockets(JSON.parse(data.ticketId));
+    }
+  }
+
+  componentDidMount() {
+    this.setupSubscription();
+  }
+
+  setupSubscription () {
+    App.tickets = App.cable.subscriptions.create(
+      { channel: "TicketChannel" },
+      {
+        performerId: this.state.performerId,
+        handleTicketsUpdate: this.handleTicketsUpdate,
+
+        connected: function () {
+          setTimeout(() =>
+            this.perform('follow', { performer_id: this.performerId }),
+            1000);
+        },
+
+        received: function (data) {
+          this.handleTicketsUpdate(data);
+        }
+      }
+    );
+  };
 
   render() {
     return (

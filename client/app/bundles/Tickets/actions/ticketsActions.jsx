@@ -69,3 +69,26 @@ export function closeCreateForm() {
     type: actionTypes.CLOSE_CREATE_FORM
   };
 }
+
+export function addTicketFromSockets(ticket) {
+  return {
+    type: actionTypes.ADD_TICKET_FROM_SOCKETS,
+    ticket: ticket
+  };
+}
+
+export function deleteTicketFromSockets(ticketId) {
+  return {
+    type: actionTypes.DELETE_TICKET_FROM_SOCKETS,
+    ticketId: ticketId
+  };
+}
+
+export function updateTicketFromSockets(ticket) {
+  return {
+    type: actionTypes.UPDATE_TICKET_FROM_SOCKETS,
+    ticket: ticket
+  };
+}
+
+

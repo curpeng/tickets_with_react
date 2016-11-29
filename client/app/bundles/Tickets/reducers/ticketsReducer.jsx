@@ -81,6 +81,18 @@ export default function TicketsReducer(state = initialState, action) {
         showCreateForm: false
       });
 
+    case actionTypes.ADD_TICKET_FROM_SOCKETS:
+      let newTickets;
+      if (state.tickets.find(x => x.id === action.ticket.id) !== undefined ){
+        newTickets = state.tickets;
+      } else {
+        newTickets = state.tickets.concat(action.ticket)
+      }
+
+      return Object.assign({}, state, {
+        tickets: newTickets
+      });
+
     default:
       return state;
   }

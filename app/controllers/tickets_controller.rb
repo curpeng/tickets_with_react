@@ -19,7 +19,7 @@ class TicketsController < ApplicationController
 
   def destroy
     @ticket = current_user.tickets.find(params[:id])
-    @ticket.delete
+    @ticket.destroy
 
     respond_to do |format|
       format.json { head :no_content }
