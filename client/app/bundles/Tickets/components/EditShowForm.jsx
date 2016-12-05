@@ -68,7 +68,7 @@ export default class EditShowForm extends React.Component {
       } else{
         actionButtonCallback = this.saveTicket;
         actionButtonText = 'Save';
-        description = <input type="text" className="form-control" value={ this.state.changedTicket.description } onChange={this.changeTicketDesc} />
+        description = <input type="text" className="form-control" value={ this.state.changedTicket.description } onChange={this.changeTicketDesc} name="description"/>
         performer = <UsersAutocomplete onUserSelectedClick={this.changePerformer} value={ticket.performer.first_name +' '+ticket.performer.last_name}/>
         state = <Dropdown options={this.props.states} onChange={this.changeTicketState} value={this.state.changedTicket.state} placeholder="Select an option" />
       }

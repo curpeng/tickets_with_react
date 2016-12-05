@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "User can delete ticket:", js: true do
+feature "User can delete a ticket:", js: true do
   given!(:task) { FactoryGirl.create(:task, :started) }
   given(:first_ticket_sel) { 'tbody tr:nth-child(1)' }
 
